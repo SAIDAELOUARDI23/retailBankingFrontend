@@ -28,9 +28,9 @@ const UserProfile = () => {
             <p><strong>Email:</strong> {userData.email}</p>
             <p><strong>Phone:</strong> {userData.phone}</p>
             <p><strong>Current Account Number:</strong> {userData.currentAccount.accountNumber}</p>
-            <p><strong>Current Account Balance:</strong> ₹ {userData.currentAccount.accountBalance.toFixed(2)}</p>
+            <p><strong>Current Account Balance:</strong> $ {userData.currentAccount.accountBalance.toFixed(2)}</p>
             <p><strong>Savings Account Number:</strong> {userData.savingsAccount.accountNumber}</p>
-            <p><strong>Savings Account Balance:</strong> ₹ {userData.savingsAccount.accountBalance.toFixed(2)}</p>
+            <p><strong>Savings Account Balance:</strong> $ {userData.savingsAccount.accountBalance.toFixed(2)}</p>
         </div>
     );
 };

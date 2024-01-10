@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import '../css/savingsAccount.css'; // Make sure to create and import your CSS styles for SavingsAccount
+import axios from 'axios';
 
 function SavingsAccount() {
 
@@ -10,16 +11,14 @@ function SavingsAccount() {
   });
 
   useEffect(() => {
-    // Replace with your actual endpoint
-    fetch('http://localhost:8083/account/savingsAccount')
-      .then((response) => response.json())
-      .then((data) => {
-        setSavingsData(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching savings account data:', error);
-      });
-  }, []);
+    axios.get('http://localhost:8083/account/savingsAccount', { withCredentials: true })
+        .then(response => {
+            setSavingsData(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching savings account data:', error);
+        });
+}, []);
 
   return (
     
@@ -50,12 +49,12 @@ function SavingsAccount() {
           <tbody>
             {savingsData.savingsTransactionList.map((transaction, index) => (
               <tr key={index}>
-                <td>{/* Transaction date */}</td>
-                <td>{/* Transaction description */}</td>
-                <td>{/* Transaction type */}</td>
-                <td>{/* Transaction status */}</td>
-                <td>{transaction.amount}</td>
-                <td>{/* Available balance after this transaction */}</td>
+                <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                <td>{transaction.description}</td>
+                <td>{transaction.type}</td>
+                <td>{transaction.status}</td>
+                <td>{transaction.amount.toFixed(2)}</td>
+                <td>{transaction.availableBalance.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>

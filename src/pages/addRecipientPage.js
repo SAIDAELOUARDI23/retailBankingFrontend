@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AddRecipientPage = () => {
+
+    const [notification, setNotification] = useState(null);
+    
     const [recipientData, setRecipientData] = useState({
         name: '',
         email: '',
@@ -12,7 +15,7 @@ const AddRecipientPage = () => {
     const [recipients, setRecipients] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8083/transfer/recipient')
+        axios.get('http://localhost:8083/transfer/recipient', { withCredentials: true })
             .then(response => {
                 setRecipients(response.data);
             })
@@ -35,6 +38,8 @@ const AddRecipientPage = () => {
         })
         .then(response => {
             console.log('Success:', response.data);
+            setNotification('Recipient added successfully');
+            setTimeout(() => setNotification(null), 3000); // Hide notification after 3 seconds
             // Optionally, refetch the recipients list
         })
         .catch(error => {

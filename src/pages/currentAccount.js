@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import '../css/currentAccount.css'; // Make sure to create and import your CSS styles
+import axios from 'axios';
 
 function CurrentAccount() {
 
@@ -10,16 +11,15 @@ function CurrentAccount() {
   });
 
   useEffect(() => {
-    fetch('http://localhost:8083/account/currentAccount')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Received data:', data);
-        setAccountData(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching account data:', error);
-      });
-  }, []);
+    axios.get('http://localhost:8083/account/currentAccount', { withCredentials: true })
+        .then(response => {
+            console.log('Received data:', response.data);
+            setAccountData(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching account data:', error);
+        });
+}, []);
 
   return (
     <div>
@@ -44,7 +44,12 @@ function CurrentAccount() {
           <tbody>
             {accountData.currentTransactionList.map((transaction, index) => (
               <tr key={index}>
-                {/* Populate table with actual transaction data */}
+                <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                <td>{transaction.description}</td>
+                <td>{transaction.type}</td>
+                <td>{transaction.status}</td>
+                <td>{transaction.amount.toFixed(2)}</td>
+                <td>{transaction.availableBalance.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
